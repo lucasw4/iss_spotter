@@ -23,4 +23,16 @@ const fetchMyIp = function (callback) {
   })
 }
 
-module.exports = { fetchMyIp }
+const fetchCoordsByIp = function (ip, callback) {
+  url = `http://ipwho.is/${ip}`
+  request(url, (error, response, body) => {
+    if (error) {
+      callback(error, null)
+    }
+
+    const data = JSON.parse(body)
+    callback(null, {latitude: data.latitude, longitude: data.longitude})
+  })
+}
+
+module.exports = { fetchMyIp, fetchCoordsByIp }

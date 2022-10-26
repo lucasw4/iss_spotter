@@ -13,13 +13,19 @@ fetchMyIp((error, ip) => {
 })
 */
 
-const { fetchMyIp, fetchCoordsByIp } = require('./iss')
+const { fetchMyIp, fetchCoordsByIp, fetchISSFlyOverTimes } = require('./iss')
 
 fetchCoordsByIp("50.64.35.62", (error, data) => {
   if (error) {
     console.log(error)
     return
   }
+  fetchISSFlyOverTimes(data, (error, times) => {
+    if(error) {
+      console.log(error)
+      return
+    }
 
-  console.log(data)
+    console.log(times)
+  })
 })

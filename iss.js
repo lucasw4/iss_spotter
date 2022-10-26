@@ -1,8 +1,8 @@
 const request = require('request')
-url = "https://api.ipify.org?format=json"
 
 // Function that finds the users IP
 const fetchMyIp = function (callback) {
+  url = "https://api.ipify.org?format=json"
   request(url, (error, response, body) => {
     // If there's an error, calls the callback with the error
     if(error) {
@@ -43,4 +43,22 @@ const fetchCoordsByIp = function (ip, callback) {
   })
 }
 
-module.exports = { fetchMyIp, fetchCoordsByIp }
+const fetchISSFlyOverTimes = function(coords, callback) {
+  url = `https://iss-flyover.herokuapp.com/json/?lat=${coords.latitude}&lon=${coords.longitude}`
+  request(url, (error, response, body) => {
+    if (error) {
+      callback(error, null)
+      return
+    }
+    if (response && response.statusCode !== 200) {
+      callback(response.statusCode, null)
+      return
+    }
+    const data = JSON.parse(body)
+    callback(null, data.response);
+
+  })
+
+}
+
+module.exports = { fetchMyIp, fetchCoordsByIp, fetchISSFlyOverTimes }

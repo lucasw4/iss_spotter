@@ -13,19 +13,26 @@ fetchMyIp((error, ip) => {
 })
 */
 
-const { fetchMyIp, fetchCoordsByIp, fetchISSFlyOverTimes } = require('./iss')
 
-fetchCoordsByIp("50.64.35.62", (error, data) => {
-  if (error) {
-    console.log(error)
-    return
+const { fetchMyIp, fetchCoordsByIp, fetchISSFlyOverTimes, nextISSTimesForMyLocation } = require('./iss')
+
+
+// Function that prints the next ISS pass times in a reasonable format
+const printPassTimes = function(passTimes) {
+  for (const pass of passTimes) {
+    const dateTime = new Date(0);
+    dateTime.setUTCSeconds(pass.risetime)
+    const duration = pass.duration;
+    console.log(`Next pass at ${dateTime} for ${duration} seconds.`)
   }
-  fetchISSFlyOverTimes(data, (error, times) => {
-    if(error) {
-      console.log(error)
-      return
-    }
+}
 
-    console.log(times)
-  })
+// Function call that calls the function from iss.js
+nextISSTimesForMyLocation((error, passTimes) => {
+  if(error) {
+    return console.log(error)
+  }
+  // SUCCESS!
+  printPassTimes(passTimes)
 })
+

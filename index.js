@@ -18,6 +18,7 @@ const { fetchMyIp, fetchCoordsByIp } = require('./iss')
 fetchCoordsByIp("50.64.35.62", (error, data) => {
   if (error) {
     console.log(error)
+    return
   }
 
   console.log(data)
